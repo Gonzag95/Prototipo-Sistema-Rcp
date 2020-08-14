@@ -1,0 +1,67 @@
+def evaluacion(lista,tiempoevaluacion):
+ import time
+ import matplotlib
+ pulsptiempo=0
+
+#if  tiempoevaluacion<1:
+    #print("El tiempo ingresado es menor a un minuto, por favor ingrese un tiempo mayor a un minuto")#ver como hacer que siga pidiendo hasta que sea mayor que 1
+    #tiempoevaluacion=imput()
+#else:
+
+ vecespormin=110
+ vecespormin=float(vecespormin)
+
+ pulsptiempo= tiempoevaluacion* vecespormin #cantidad de pulsasiones de deberia realizar en la cantidad de tiempo determinado
+ #arduino = serial.Serial('COM3', 9600)
+ frecuencia = 0
+ contmov=0
+ contfrec=0
+ contfrecorr=0
+ cont=0
+ distactual=0
+ distanciaant=0
+ contmalos=0
+ contfrecleve=0
+ minimo = min(lista)
+ maximo= max(lista)
+ tamaño= len(lista)
+
+ for i in range (1,tamaño):
+     if  lista[i]> 8:
+         pass
+     elif 6.38<lista[i]<8:
+         if lista[i-1]>=8:
+            contfrec=contfrec+1
+            contfrecleve=contfrecleve+1
+     elif  5.42<lista [i]<6.38:
+         if lista[i-1]>=6.38:
+            #contfrec=contfrec+1
+            contfrecorr=contfrecorr+1
+            contfrecleve=contfrecleve-1
+     elif lista[i]<=5.42:
+         if lista[i-1]>5.42:
+            contmalos=contmalos+1
+            contfrecorr=contfrecorr-1
+
+
+
+ print("el tamaño del vector es:", tamaño)
+ print("El valor minimo fue:",minimo)
+ print("El valor maximo fue:",maximo)
+ print("La frecuencia fue de ",contfrec/tiempoevaluacion, "compresiones por minuto")
+ print("Hubo ",contmalos," compresiones excesivas")
+ print("hubo",contfrecleve,"compresiones realizadas con fuerza insuficiente")
+ print("la cantidad de compresiones correctas fueron",contfrecorr)
+
+
+
+ cuentaporecentaje=(contfrec/pulsptiempo)*100
+ if cuentaporecentaje>100:
+    print( "usteded se ha excedido en la frecuencia por un %",cuentaporecentaje-100,'')
+ elif 0<cuentaporecentaje<=100:
+    print("Su frecuencia fue un %", cuentaporecentaje,"correcta")
+    if cuentaporecentaje<=80:
+        print("EL PORCENTAJE NO FUE SUFICIENTE,  USTED NO HA APROBADO, POR FAVOR CONTINUE PRACTICANDO Y VUELVA A INTENTAR A LA BREVEDAD ")
+ elif cuentaporecentaje<0:
+       print(" Todas las compresiones fueron realizadas incorrectamente.USTED NO HA APROBADO, POR FAVOR CONTINUE PRACTICANDO Y VUELVA A INTENTAR A LA BREVEDAD. ")
+
