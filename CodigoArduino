@@ -1,6 +1,9 @@
 int pulsador=0;                   //almacena el estado del botón
+int pulsador1=0;
+int pulsador2=0;
 int estado=0;                      //0=led apagado, 1=led encendido
-int val=0;
+int valant2=0;
+int valant1=0;
 int valant=0;
 int ir_sensor0 = A0;
 const int pin11 = 11; //azul
@@ -10,34 +13,24 @@ int pinaltavoz=10;
 int frecuenciaguia=900; 
 int frecuenciaerror=100;
 int delay2=500; 
+int variable=5;
 unsigned long tiempoahora=0;
 unsigned long tiempoahora1=0;
 //* Programa *//
 
 void setup() {
   Serial.begin(9600);    //iniciar puerto serie
-  pinMode(3, OUTPUT);       //declaramos el pin 2 como salida
-  pinMode(2, INPUT);          //declaramos el pin 4 como entrada
+  pinMode(3, OUTPUT);       //declaramos el pin 3 como salida
+  pinMode(4,INPUT);
+  pinMode(5,INPUT);
+  pinMode(2, INPUT);          //declaramos el pin 2 como entrada
   pinMode(pin11, OUTPUT);  //definir pin0 como salida
   pinMode(pin12, OUTPUT);  //definir pin1 como salida
   pinMode(pin13, OUTPUT);  //definir pin2 como salida
 }  
 
-void loop() {
-  pulsador = digitalRead(2); //lee si el botón está pulsado
-  
-  if((pulsador==HIGH)&&(valant==LOW)){         //si el boton es pulsado
-    estado=1-estado;
-    Serial.println(estado);
-    if(estado==1){
-      Serial.println("Practica"); }
-    else{
-      Serial.println("Evalucion");}
-    delay(10);
-  }
-  
-   valant=pulsador;
-   if(estado==1) {                 //si el estado es 1
+
+   void practica() {                 //si el estado es 1
    
       float lectura, cm;
           lectura = analogRead(ir_sensor0); // lectura del sensor 0
@@ -88,8 +81,7 @@ void loop() {
   
   
   }
-  else                                //si el estado es 0
-  {
+  void evaluacion(){                                //si el estado es 0
   float lectura, cm;
   
   lectura = analogRead(ir_sensor0); // lectura del sensor 0
@@ -98,8 +90,34 @@ void loop() {
   delay(50); // tiempo de espera
   
  }
-
-
-
+ void loop() {
+  pulsador = digitalRead(2);//lee si el botón está pulsado
+  pulsador1=digitalRead(4);
+  pulsador2=digitalRead(5);
+  if((pulsador==HIGH)&&(valant==LOW)){         //si el boton es pulsado
+    estado=0;
+  
+    delay(5);
+    Serial.println(estado);}  //Si es 1 va a practica , Si es 0 va a evaluacion
+   
+  if((pulsador1==HIGH)){         //si el boton es pulsado
+    estado=1;
+   // Serial.println(estado);
+    practica();
+  }
     
+  if((pulsador2==HIGH)){         //si el boton es pulsado
+    estado==2;
+    //Serial.println(estado);
+    evaluacion();
+  }
+  if((pulsador1==1)&&(valant1==0)) {
+    Serial.println(estado);}
+  if((pulsador2==1)&&(valant2==0)) {
+    Serial.println(estado);}
+  
+  
+   valant=pulsador;
+   valant1=pulsador1;
+   valant2=pulsador2;
   }
