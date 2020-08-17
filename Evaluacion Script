@@ -64,4 +64,3 @@ def evaluacion(lista,tiempoevaluacion):
         print("EL PORCENTAJE NO FUE SUFICIENTE,  USTED NO HA APROBADO, POR FAVOR CONTINUE PRACTICANDO Y VUELVA A INTENTAR A LA BREVEDAD ")
  elif cuentaporecentaje<0:
        print(" Todas las compresiones fueron realizadas incorrectamente.USTED NO HA APROBADO, POR FAVOR CONTINUE PRACTICANDO Y VUELVA A INTENTAR A LA BREVEDAD. ")
-
