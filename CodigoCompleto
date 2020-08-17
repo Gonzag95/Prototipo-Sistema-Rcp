@@ -8,76 +8,57 @@ import serial
 import time
 import struct
 import matplotlib.animation as animation
+import practicascript
+ser = serial.Serial('COM3', 9600)
 
 
+while True:
 
-
-arduino = serial.Serial('COM3', 9600)
-dato=arduino.readline().decode('utf-8')
-dato=string(dato)
-
-if (dato=='evaluacion')
- lista= []
- print ("Indique el tiempo que desea que dure la evaluacion en MINUTOS  ")
- tiempoevaluacion= input()
- tiempoevaluacion=float(tiempoevaluacion)
- tiempoevaluacions= tiempoevaluacion*60
- print("el tiempo de evaluacion será de,",tiempoevaluacion, "minutos")
- start = time.time()
- ttot = 0
- end = 0
- print("Comienza evaluacion")
- while ttot < tiempoevaluacions:
-     end = time.time()
-     ttot = end - start
-     ttot = float(ttot)
-     valor = arduino.readline().decode('utf-8')
+     dato=ser.readline().decode('utf-8')
      try:
-         valor = float(valor)
-         lista.append(valor)
+        dato=float(dato)
      except:
          pass
- print("El prceso de evaluacion ha finalizado")
- evaluacionsript.evaluacion(lista,tiempoevaluacion)
- plt.plot(lista)
- plt.show()
- print(lista)
 
-elif (dato=='practica')
-    gData = []
-    gData.append([0.0])
-    gData.append([0.0])
+     if (dato==2): #EVALUACION
+       lista= []
+       #if (dato==1):
+        #    practica()#VERIFICO SI CAMBIAN DE ESTADO EN ARDUINO PARA IR A PRACTICA
+       #else:
+        #   continue
+       print ("Indique el tiempo que desea que dure la evaluacion en MINUTOS  ")
+       #ME ESTAN ENTRANDO DATOS DESDE ARDUINO Y NO SE QUE PASA CON ESOS DATOS
+       tiempoevaluacion= input()
+       tiempoevaluacion=float(tiempoevaluacion)
+       tiempoevaluacions= tiempoevaluacion*60
+       print("el tiempo de evaluacion será de,",tiempoevaluacion, "minutos")
+       start = time.time()
+       ttot = 0
+       end = 0
+       print("Comienza evaluacion")
+       while ttot < tiempoevaluacions:
+             end = time.time()
+             ttot = end - start
+             ttot = float(ttot)
+             valor = ser.readline().decode('utf-8')
+             try:
+               valor = float(valor)
+               lista.append(valor)
+             except:
+               pass
+       print("El prceso de evaluacion ha finalizado")
+       if (dato == 0):
+           lista = []
+           if (dato == 1):#VERIFICO SI CAMBIAN DE ESTADO EN ARDUINO PARA IR A PRACTICA
+               practica()
+           else:
+               continue
+       evaluacionsript.evaluacion(lista,tiempoevaluacion)
+       plt.plot(lista)
+       plt.show()
+       print(lista)
 
 
-    def getData(out_data):
-            while True:
-                line = arduino.readline().decode('utf-8')
-                try:
-                    out_data[1].append(float(line))  # se convierten datos a float y se guardan en gdata1
-                    if len(out_data[1]) > 1300:  # esta condicion la podemos usar para limitar hasta donde hace el muestreo
-                        out_data[1].pop(0)
-
-                except:
-                    pass
-
-
-    dataCollector = threading.Thread(target=getData, args=(gData,))
-    dataCollector.start()
-
-
-    def update_line(num, hl, data):
-        dx = np.array(range(len(data[1])))
-        dy = np.array(data[1])
-        hl.set_data(dx, dy)
-        return hl,
-
-
-    fig = plt.figure(figsize=(10, 8))
-    plt.ylim(2, 15)
-    plt.xlim(0, 1300)
-    hl, = plt.plot(gData[0], gData[1])
-    print(gData[1], gData[0])
-    line_ani = animation.FuncAnimation(fig, update_line, fargs=(hl, gData), interval=50, blit=False)
-
-    plt.show()
-    dataCollector.join()
+     elif (dato==1): #PRACTICA
+         ser.close()
+         practicascript.practica()
