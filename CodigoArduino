@@ -107,7 +107,7 @@ void setup() {
   }
     
   if((pulsador2==HIGH)){         //si el boton es pulsado
-    estado==2;
+    estado=2;
     //Serial.println(estado);
     evaluacion();
   }
