@@ -9,18 +9,84 @@ import time
 import struct
 import matplotlib.animation as animation
 import practicascript
+from tkinter import *
+import threading
 ser = serial.Serial('COM3', 9600)
+global root
+root=Tk()
+root.config(width=512, height=384)
+
+global miframe
+miframe= Frame(root)
+miframe.place()
+miimage = PhotoImage(file="corazon.gif")
+Label(miframe, image=miimage).place(x=0, y=0)
+Label(miframe, text="SELECCIONE EL MODO QUE DESEE", fg="red", bg="black", font=("Arial", 10)).place(x=140, y=250)
+texto = StringVar()
+label = Label(miframe)
+texto.set("CURSO RCP NEONATAL")
+label.config(textvariable=texto, fg="white", bg="black", font=("Comic Sans MS", 16))
+label.place(x=120, y=5)
+
+def comunicacion():
+    while True:
+        dato = ser.readline().decode('utf-8')
+
+        try:
+            dato = float(dato)
+        except:
+            pass
+        if (dato == 2):
+            root.destroy()
+
+        if (dato == 1):
+            root.destroy()
 
 
+
+def interfaz():
+    root.mainloop()
+ #LO QUE HIZE YO:
+ #root=Tk()
+ #miframe=Frame(root,width=512,height=384)
+ #miframe.pack()
+ #Label(miframe,text="SELECCIONE EL MODO QUE DESEE", fg="black",font=("Arial",18)).place(x=50,y=3)
+ #miimage=PhotoImage(file="corazon.gif")
+ #Label(miframe, image=miimage).place(x=0,y=0)
+ #texto = StringVar()
+ #label= Label(miframe)
+ #texto.set("Seleccione el modo que desee")
+ #label.config(textvariable=texto, fg="white",bg="black",font=("Arial",16))
+ #label.place(x=115,y=5)
+ #root.mainloop()
+
+#def principal():
+s = threading.Thread(target=interfaz())
+#t= threading.Thread(target=mainloop())
+s.start()
 while True:
-
      dato=ser.readline().decode('utf-8')
+
      try:
         dato=float(dato)
      except:
          pass
-
      if (dato==2): #EVALUACION
+       miframe.destroy()
+       miframe1 = Frame(root, width=512, height=384)
+       miframe1.pack()
+       texto = StringVar()
+       label = Label(root)
+       texto.set("EVALUACION")
+
+       #root.config(width=512, height=384)
+
+       label1 = Label(miframe1, text="EVALUACION")
+       label1.place(x=115,y=5)
+       label2 = Label(miframe1, text="Introduzca el tiempo en minutos")
+       label2.pack(side=LEFT)
+       tiempoevaluacion = Entry(miframe1)
+       tiempoevaluacion.pack(side=RIGHT)
        lista= []
        #if (dato==1):
         #    practica()#VERIFICO SI CAMBIAN DE ESTADO EN ARDUINO PARA IR A PRACTICA
@@ -58,7 +124,9 @@ while True:
        plt.show()
        print(lista)
 
-
      elif (dato==1): #PRACTICA
          ser.close()
          practicascript.practica()
+
+
+
