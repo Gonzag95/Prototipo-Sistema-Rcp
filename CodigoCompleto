@@ -1,3 +1,4 @@
+#MAIN
 import evaluacionsript
 import matplotlib.pyplot as plt
 import serial
@@ -28,19 +29,8 @@ texto.set("CURSO RCP NEONATAL")
 label.config(textvariable=texto, fg="white", bg="black", font=("Comic Sans MS", 16))
 label.place(x=120, y=5)
 
-def comunicacion():
-    while True:
-        dato = ser.readline().decode('utf-8')
 
-        try:
-            dato = float(dato)
-        except:
-            pass
-        if (dato == 2):
-            root.destroy()
-
-        if (dato == 1):
-            root.destroy()
+   
 
 
 
@@ -60,10 +50,11 @@ def interfaz():
  #label.place(x=115,y=5)
  #root.mainloop()
 
-#def principal():
+
 s = threading.Thread(target=interfaz())
-#t= threading.Thread(target=mainloop())
 s.start()
+
+
 while True:
      dato=ser.readline().decode('utf-8')
 
@@ -129,4 +120,4 @@ while True:
          practicascript.practica()
 
 
-
+#EL PROGRAMA SE QUEDA TILDADO EN LA FUNCION INTERFAZ, YA QUE LA LINEA MAINLOOP NO LO DEJA SALIR 
